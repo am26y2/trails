@@ -36,15 +36,27 @@ function createPoint(fill) {
   
   TweenLite.set(circle, {
     attr: { r: 9.5, fill: fill },
-    x: 25,
-    y: 380
+    x: 0,
+    y: 400
   });
 
+  // TweenMax.to(circle, 8, {
+  //   x: 400,
+  //   y: 0
+  // })
   TweenMax.to(circle, 8, {
-    x: 700,
-    y: -280
-  })
-  
+    bezier: {
+      type: "cubic",
+      values: [
+        { x: 0, y: 400 },
+        // console.log(Math.random()),
+        { x: 400*(Math.random(0,10)), y: 400*(Math.random(0,10)) },
+        { x: 400*(Math.random(0,10)), y: 400*(Math.random(0,10)) },
+        { x: 400, y: 0 },
+        
+      ],
+    },
+  });
   return circle._gsTransform;
 }
 
@@ -57,8 +69,8 @@ function createLine(leader, alpha, stroke) {
   TweenLite.set(line, {
     alpha: alpha,
     stroke: stroke,
-    x: 25,
-    y: 380
+    x: 0,
+    y: 400
   });
     
   var pos = line._gsTransform;

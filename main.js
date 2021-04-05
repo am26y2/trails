@@ -1,25 +1,26 @@
 TweenLite.defaultEase = Linear.easeNone;
 
-var cx = 200;
-var cy = 200;
 
 var svgns = "http://www.w3.org/2000/svg";
 var root  = document.querySelector("svg");
-var twoPi = Math.PI * 2;
 var ease  = 0.1;
 var total = 25;
+var lineEase=0.00002;
+var linecolor='yellow';
 
 var colors = ["#EA4335"];
 
 colors.forEach(function(color) {
   
   var leader = createPoint(color);
+  var line = leader;
   console.log('leader: ',leader);
   
   var i = total;  
   while (i--) {
     var alpha = (i + 1) / total;
     leader = createLine(leader, alpha, color);
+    line=createLine1(leader,alpha,linecolor);
   }
 });
 
@@ -86,6 +87,41 @@ function createLine(leader, alpha, stroke) {
       },
       y: function(y) {        
         y = pos.y + (leader.y - pos.y) * ease;
+        line.setAttribute("y2", leader.y - y);
+        return y;
+      }
+    }
+  });  
+  
+  return pos;
+}
+
+function createLine1(leader, alpha, stroke) {
+  
+  var line = document.createElementNS(svgns, "line");
+  root.appendChild(line);
+  
+  TweenLite.set(line, {
+    alpha: alpha,
+    stroke: stroke,
+    x: 0,
+    y: 400
+  });
+    
+  var pos = line._gsTransform;
+  
+  TweenMax.to(line, 1000, {
+    x: "+=1",
+    y: 50,
+    // repeat: -1,
+    modifiers: {
+      x: function(x) {        
+        x = pos.x + (leader.x - pos.x) * lineEase ;
+        line.setAttribute("x2", leader.x - x);
+        return x;
+      },
+      y: function(y) {        
+        y = pos.y + (leader.y - pos.y) * lineEase;
         line.setAttribute("y2", leader.y - y);
         return y;
       }

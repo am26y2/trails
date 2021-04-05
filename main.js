@@ -6,7 +6,7 @@ var cy = 200;
 var svgns = "http://www.w3.org/2000/svg";
 var root  = document.querySelector("svg");
 var twoPi = Math.PI * 2;
-var ease  = 0.35;
+var ease  = 0.1;
 var total = 25;
 
 var colors = ["#EA4335"];
@@ -49,8 +49,7 @@ function createPoint(fill) {
       type: "cubic",
       values: [
         { x: 0, y: 400 },
-        // console.log(Math.random()),
-        { x: 400*(Math.random(0,10)), y: 400*(Math.random(0,10)) },
+        { x: 400, y: 400},
         { x: 400*(Math.random(0,10)), y: 400*(Math.random(0,10)) },
         { x: 400, y: 0 },
         
@@ -86,7 +85,7 @@ function createLine(leader, alpha, stroke) {
         return x;
       },
       y: function(y) {        
-        y = pos.y + (leader.y - pos.y) * ease + random(0.5, 6);
+        y = pos.y + (leader.y - pos.y) * ease;
         line.setAttribute("y2", leader.y - y);
         return y;
       }
